@@ -6,7 +6,7 @@ document:
 	gcc -Wall -Werror -g -c src/document.c -o bin/document.o
 
 main: document parsing
-	gcc -Wall -Werror -g src/main.c bin/parsing.o -o bin/main
+	gcc -Wall -Werror -g src/main.c bin/*.o -o bin/main
 
 all: main
 
