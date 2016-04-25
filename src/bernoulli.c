@@ -1,3 +1,3 @@
-#include "binomial.h"
+#include "bernoulli.h"
 #include "document.h"
 

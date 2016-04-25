@@ -4,6 +4,8 @@
 
 #include "parsing.h"
 #include "document.h"
+#include "bernoulli.h"
+#include "multinomial.h"
 #include "rand.h"
 
 int main (int argc, char **argv){
