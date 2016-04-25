@@ -18,6 +18,10 @@ struct document{
 	struct document* suivant;
 };
 
+void creer_document(struct document* ensemble_doc,int categorie);
+
 void ajouter_mot(struct document* doc, int  indice, int nombre_occurence);
+
+void supprimer_mot(struct mot* mot_a_supprimer);
 
 #endif
