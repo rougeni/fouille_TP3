@@ -43,4 +43,15 @@ struct mot* supprimer_mot(struct mot* mot_a_supprimer);
 */
 struct document* supprimer_document(struct document* doc_a_supprimer);
 
+/**
+* 	fonction qui renvoie un tableau de 29 int 
+*	avec dans la case i le nombre de documents de classe i
+*/
+int* nombre_doc_par_classe(struct document * ensemble_doc);
+
+/**
+*	fonction qui renvoie la dimension du problème, c'est à dire la taille du vocabulaire
+*/
+int taille_voc(struct document* ensemble_doc);
+
 #endif
