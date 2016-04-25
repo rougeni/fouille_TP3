@@ -9,7 +9,7 @@ int main (int argc, char **argv){
 	printf("Test 0:0 => %i:%i\n",test.vecteur[0].indice, test.vecteur[0].nombre_occurence);
 
 	struct document *ensemble_doc = NULL;
-	ensemble_doc = parseLine(ensemble_doc,"1 1:1 2:2 3:3");
+	ensemble_doc = parseLine(ensemble_doc,"1 1:1 2:2 3:3\n");
 	printf("Cat : %i\n",ensemble_doc->categorie);
 	struct mot *ptr = ensemble_doc->vecteur;
 	while (ptr != NULL) {
@@ -17,5 +17,9 @@ int main (int argc, char **argv){
 		ptr = ptr->suivant;
 	}
 	printf("\n");
+	printf("EBD\n");
+
+	parseBase("BaseReuters-29");
+	printf("FILS DE PUTE\n");
 	return 0;
 }
