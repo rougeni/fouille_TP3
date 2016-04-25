@@ -10,8 +10,7 @@ struct document* creer_document(struct document* ensemble_doc,int categorie){
 		// ajout du premier document
 		doc->suivant = NULL;
 	} else {
-		doc->suivant = ensemble_doc->suivant;
-		ensemble_doc->suivant = doc;
+		doc->suivant = ensemble_doc;
 	}
 	return doc;
 }

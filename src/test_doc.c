@@ -10,8 +10,8 @@ int main (int argc, char **argv){
 	/** ------------------------------------- Test de la fonction creer_document -----------------------------*/
 	struct document * ensemble_doc = NULL;
 	ensemble_doc = creer_document(ensemble_doc,1);
-	creer_document(ensemble_doc,2);
-	creer_document(ensemble_doc,1);
+	ensemble_doc = creer_document(ensemble_doc,2);
+	ensemble_doc = creer_document(ensemble_doc,1);
 
 	/** ------------------------------------- Test de la fonction nombre_doc_par_classe -------------------*/
 	int * tableau = nombre_doc_par_classe(ensemble_doc);
