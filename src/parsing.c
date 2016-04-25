@@ -19,9 +19,11 @@ void parseMot(struct document* doc,const char word[]) {
 }
 
 void parseLine(struct document* ens_doc, char line[]) {
+	char* lne = malloc(sizeof(char)*strlen(line));
+	strcpy(lne,line);
 	char * sline;
 	int cat;
-	sline = strtok(line," ");
+	sline = strtok(lne," ");
 	cat = atoi(sline);
 	creer_document(ens_doc,cat);
 	sline = strtok(NULL, " ");
