@@ -32,6 +32,11 @@ struct mot* supprimer_mot(struct mot* mot_a_supprimer){
 
 struct document* supprimer_document(struct document* doc_a_supprimer){
 	struct document * suivant = doc_a_supprimer->suivant;
+	// il faut supprimer tous les mots de ce document
+	struct mot * courant = doc_a_supprimer->vecteur;
+	while (courant != NULL){
+		courant = supprimer_mot(courant);
+	}
 	free(doc_a_supprimer);
 	return suivant;
 }
@@ -58,6 +63,7 @@ int taille_voc(struct document* ensemble_doc){
 		if (indice > voc){
 			voc = indice;
 		}
+		courant = courant->suivant;
 	}
 	return voc;
 }
