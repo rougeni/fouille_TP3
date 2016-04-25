@@ -30,15 +30,14 @@ struct document* parseLine(struct document* ens_doc, const char * line) {
 
 	buf = strdup(line);
 	bp = &buf;
-	
+
 	tok = strsep(bp, " ");
 	cat = atoi(tok);
 	
 	ens_docu = creer_document(ens_doc,cat);
 	
 	while((tok = strsep(bp, " ")) != NULL){
-		printf(" %s",tok);
-		parseMot(ens_doc,tok);
+		parseMot(ens_docu,tok);
 	}
      
 	free(buf);

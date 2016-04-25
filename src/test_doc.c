@@ -42,10 +42,16 @@ int main (int argc, char **argv){
 	int taille =  taille_voc(ensemble_doc);
 	printf("taille du vocabulaire (522): %i\n",taille);
 
-	/** ------------------------------------- test des focntions de suppressions ------------------------*/
+	
+	/** ------------------------------------- Test des fonctions de suppressions ------------------------*/
 	supprimer_document(ensemble_doc->suivant->suivant);
 	taille =  taille_voc(ensemble_doc);
 	printf("taille du vocabulaire (124): %i\n",taille);
+
+
+	while(ensemble_doc != NULL){
+		ensemble_doc = supprimer_document(ensemble_doc);
+	}
 
 	printf("\n fin du test \n");
 	return 0;
