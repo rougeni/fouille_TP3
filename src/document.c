@@ -58,9 +58,11 @@ int taille_voc(struct document* ensemble_doc){
 	int voc = 0;
 	while(courant != NULL){
 		// pour chaque document, on regarde l'indice du premier mot de la liste qui est le dernier mot du fichier
-		int indice = courant->vecteur->indice;
-		if (indice > voc){
-			voc = indice;
+		if (courant-> vecteur != NULL){
+			int indice = courant->vecteur->indice;
+			if (indice > voc){
+				voc = indice;
+			}
 		}
 		courant = courant->suivant;
 	}
