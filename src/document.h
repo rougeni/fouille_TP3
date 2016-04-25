@@ -18,4 +18,6 @@ struct document{
 	struct document* suivant;
 };
 
+void ajouter_mot(struct document* doc, int  indice, int nombre_occurence);
+
 #endif
