@@ -20,8 +20,9 @@ struct document{
 
 /**
 *	fonction qui créer un nouveau document de catégorie categorie et l'ajoute dans la liste des documents
+*	la fonction renvoie un pointeur vers le doc qu'elle a créé
 */
-void creer_document(struct document* ensemble_doc,int categorie);
+struct document * creer_document(struct document* ensemble_doc,int categorie);
 
 /**
 *	fonction qui ajoute le mot d'indice indice et de nombre d'occurence nombe_occurence

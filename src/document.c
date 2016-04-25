@@ -3,16 +3,16 @@
 
 #include "document.h"
 
-void creer_document(struct document* ensemble_doc,int categorie){
+struct document* creer_document(struct document* ensemble_doc,int categorie){
 	struct document* doc = malloc(sizeof(struct document));
 	doc->categorie = categorie;
-	doc->suivant = ensemble_doc->suivant;
 	if(ensemble_doc == NULL){
 		// ajout du premier document
-		ensemble_doc = doc;	
+		doc->suivant = NULL;
 	} else {
-		ensemble_doc->suivant = doc;
+		doc->suivant = ensemble_doc;
 	}
+	return doc;
 }
 
 void ajouter_mot(struct document* doc, int  indice, int nombre_occurence){
@@ -31,6 +31,11 @@ struct mot* supprimer_mot(struct mot* mot_a_supprimer){
 
 struct document* supprimer_document(struct document* doc_a_supprimer){
 	struct document * suivant = doc_a_supprimer->suivant;
+	// il faut supprimer tous les mots de ce document
+	struct mot * courant = doc_a_supprimer->vecteur;
+	while (courant != NULL){
+		courant = supprimer_mot(courant);
+	}
 	free(doc_a_supprimer);
 	return suivant;
 }
@@ -52,11 +57,12 @@ int taille_voc(struct document* ensemble_doc){
 	struct document * courant = ensemble_doc;
 	int voc = 0;
 	while(courant != NULL){
-		// pour chaque document, on regarde l'indice du premier mot de la liste
+		// pour chaque document, on regarde l'indice du premier mot de la liste qui est le dernier mot du fichier
 		int indice = courant->vecteur->indice;
 		if (indice > voc){
 			voc = indice;
 		}
+		courant = courant->suivant;
 	}
 	return voc;
 }
