@@ -2,12 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+//TO BE REMOVED
+#include <stdio.h>
+
 void parseMot(struct document* doc,const char word[]) {
-	char* wrd = malloc(sizeof(char)*strlen(word));
+	char* wrd = strdup(word);
 	int i = 0;
 	int indice;
 	int nbr_occur;
-	strcpy(wrd,word);
 	while (wrd[i] != ':') {
 		i++;
 	}
@@ -19,16 +22,22 @@ void parseMot(struct document* doc,const char word[]) {
 }
 
 void parseLine(struct document* ens_doc, char line[]) {
-	char* lne = malloc(sizeof(char)*strlen(line));
-	strcpy(lne,line);
-	char * sline;
-	int cat;
-	sline = strtok(lne," ");
-	cat = atoi(sline);
-	creer_document(ens_doc,cat);
-	sline = strtok(NULL, " ");
-	while (sline != NULL) {
-		parseMot(ens_doc,sline);
-		sline = strtok(NULL, " ");
+	char *buf = NULL;
+	char **bp = NULL;
+	char *tok = NULL;
+	int cat = -1;
+
+	buf = strdup(line);
+	bp = &buf;
+	
+	tok = strsep(bp, " ");
+	cat = atoi(tok);
+	
+	ens_doc = creer_document(ens_doc,cat);
+	
+	while((tok = strsep(bp, " ")) != NULL){
+		parseMot(ens_doc,tok);
 	}
+     
+	free(buf);
 }
