@@ -17,3 +17,16 @@ void parseMot(struct document* doc,const char word[]) {
 	free(wrd);
 	ajouter_mot(doc,indice,nbr_occur);
 }
+
+void parseLine(struct document* ens_doc, char line[]) {
+	char * sline;
+	int cat;
+	sline = strtok(line," ");
+	cat = atoi(sline);
+	creer_document(ens_doc,cat);
+	sline = strtok(NULL, " ");
+	while (sline != NULL) {
+		parseMot(ens_doc,sline);
+		sline = strtok(NULL, " ");
+	}
+}
