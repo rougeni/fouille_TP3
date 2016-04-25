@@ -21,3 +21,7 @@ void ajouter_mot(struct document* doc, int  indice, int nombre_occurence){
 void supprimer_mot(struct mot* mot_a_supprimer){
 	free(mot_a_supprimer);
 }
+
+void supprimer_document(struct document* doc_a_supprimer){
+	free(doc_a_supprimer);
+}
