@@ -3,17 +3,17 @@
 
 #include "document.h"
 
-void creer_document(struct document* ensemble_doc,int categorie){
+struct document* creer_document(struct document* ensemble_doc,int categorie){
 	struct document* doc = malloc(sizeof(struct document));
 	doc->categorie = categorie;
 	if(ensemble_doc == NULL){
 		// ajout du premier document
 		doc->suivant = NULL;
-		ensemble_doc = doc;
 	} else {
 		doc->suivant = ensemble_doc->suivant;
 		ensemble_doc->suivant = doc;
 	}
+	return doc;
 }
 
 void ajouter_mot(struct document* doc, int  indice, int nombre_occurence){

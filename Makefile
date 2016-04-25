@@ -9,7 +9,7 @@ main: document parsing
 	gcc -std=c99 -Wall -Werror -g src/main.c bin/parsing.o bin/document.o -o bin/main
 
 test_doc: document
-	gcc -std=c99 -Wall -Werror -g src/main.c bin/document.o -o bin/test_doc
+	gcc -std=c99 -Wall -Werror -g src/test_doc.c bin/document.o -o bin/test_doc
 
 all: main
 
