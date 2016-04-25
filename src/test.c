@@ -10,5 +10,11 @@ int main (int argc, char **argv){
 
 	struct document *ensemble_doc = NULL;
 	parseLine(ensemble_doc,"1 1:1 2:2 3:3");
+	printf("Cat :%i\n",ensemble_doc->categorie);
+	/*struct mot* ptr = ensemble_doc->vecteur;
+	while (ptr != NULL) {
+		printf(" %i:%i",ptr->indice,ptr->nombre_occurence);
+		ptr++;
+		}*/
 	return 0;
 }

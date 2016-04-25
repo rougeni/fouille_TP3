@@ -6,8 +6,8 @@
 //TO BE REMOVED
 #include <stdio.h>
 
-void parseMot(struct document* doc,const char word[]) {
-	char* wrd = strdup(word);
+void parseMot(struct document* doc,const char * word) {
+	char * wrd = strdup(word);
 	int i = 0;
 	int indice;
 	int nbr_occur;
@@ -21,11 +21,12 @@ void parseMot(struct document* doc,const char word[]) {
 	ajouter_mot(doc,indice,nbr_occur);
 }
 
-void parseLine(struct document* ens_doc, char line[]) {
+struct document* parseLine(struct document* ens_doc, const char * line) {
 	char *buf = NULL;
 	char **bp = NULL;
 	char *tok = NULL;
-	int cat = -1;
+	int cat;
+	struct document* ens_docu;
 
 	buf = strdup(line);
 	bp = &buf;
@@ -33,11 +34,13 @@ void parseLine(struct document* ens_doc, char line[]) {
 	tok = strsep(bp, " ");
 	cat = atoi(tok);
 	
-	ens_doc = creer_document(ens_doc,cat);
+	ens_docu = creer_document(ens_doc,cat);
 	
 	while((tok = strsep(bp, " ")) != NULL){
+		printf(" %s",tok);
 		parseMot(ens_doc,tok);
 	}
      
 	free(buf);
+	return ens_docu;
 }
