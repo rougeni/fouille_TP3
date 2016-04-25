@@ -1,12 +1,15 @@
 
 parsing:
-	gcc -Wall -Werror -g -c src/parsing.c -o bin/parsing.o
+	gcc -std=c99 -Wall -Werror -g -c src/parsing.c -o bin/parsing.o
 
 document:
-	gcc -Wall -Werror -g -c src/document.c -o bin/document.o
+	gcc -std=c99 -Wall -Werror -g -c src/document.c -o bin/document.o
 
 main: document parsing
-	gcc -Wall -Werror -g src/main.c bin/*.o -o bin/main
+	gcc -std=c99 -Wall -Werror -g src/main.c bin/*.o -o bin/main
+
+test_doc: document
+	gcc -std=c99 -Wall -Werror -g src/test_doc.c bin/document.o -o bin/test_doc
 
 all: main
 

@@ -6,11 +6,12 @@
 void creer_document(struct document* ensemble_doc,int categorie){
 	struct document* doc = malloc(sizeof(struct document));
 	doc->categorie = categorie;
-	doc->suivant = ensemble_doc->suivant;
 	if(ensemble_doc == NULL){
 		// ajout du premier document
-		ensemble_doc = doc;	
+		doc->suivant = NULL;
+		ensemble_doc = doc;
 	} else {
+		doc->suivant = ensemble_doc->suivant;
 		ensemble_doc->suivant = doc;
 	}
 }
@@ -52,7 +53,7 @@ int taille_voc(struct document* ensemble_doc){
 	struct document * courant = ensemble_doc;
 	int voc = 0;
 	while(courant != NULL){
-		// pour chaque document, on regarde l'indice du premier mot de la liste
+		// pour chaque document, on regarde l'indice du premier mot de la liste qui est le dernier mot du fichier
 		int indice = courant->vecteur->indice;
 		if (indice > voc){
 			voc = indice;
