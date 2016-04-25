@@ -7,14 +7,14 @@ rand:
 
 document:
 	gcc -std=gnu99 -Wall -Werror -g -c src/document.c -o bin/document.o
-
+	
 binomial: document
 	gcc -std=gnu99 -Wall -Werror -g -c src/binomial.c bin/document.o -o bin/binomial.o
 
 multinomial: document
 	gcc -std=gnu99 -Wall -Werror -g -c src/multinomial.c bin/document.o -o bin/multinomial.o
 
-main: document parsing binomial multinomial
+main: document parsing rand binomial multinomial
 	gcc -std=gnu99 -Wall -Werror -g src/main.c bin/parsing.o bin/document.o bin/rand.o bin/multinomial.o bin/binomial.o -o bin/main
 
 test_doc: document
