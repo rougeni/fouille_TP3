@@ -4,8 +4,8 @@
 
 struct document* parseBase(char filename[]);
 
-struct document* parseLine(char line[]);
+void parseLine(char line[]);
 
-struct mot* parseMot(char word[]);
+void parseMot(struct document* doc,const char word[]);
 
 #endif
