@@ -18,10 +18,14 @@ void ajouter_mot(struct document* doc, int  indice, int nombre_occurence){
 	doc->vecteur = mot_a_ajouter;
 }
 
-void supprimer_mot(struct mot* mot_a_supprimer){
+struct mot* supprimer_mot(struct mot* mot_a_supprimer){
+	struct mot * suivant = mot_a_supprimer->suivant;
 	free(mot_a_supprimer);
+	return suivant;
 }
 
-void supprimer_document(struct document* doc_a_supprimer){
+struct document* supprimer_document(struct document* doc_a_supprimer){
+	struct document * suivant = doc_a_supprimer->suivant;
 	free(doc_a_supprimer);
+	return suivant;
 }
