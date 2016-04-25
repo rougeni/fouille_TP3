@@ -8,6 +8,7 @@ document:
 main: document parsing
 	gcc -Wall -Werror -g src/main.c bin/parsing.o bin/document.o -o bin/main
 
+
 all: main
 
 test: document parsing
