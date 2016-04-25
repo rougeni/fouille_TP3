@@ -1,6 +1,6 @@
 
 
-#ifndef
+#ifndef DEF_DOCUMENT
 #define DEF_DOCUMENT
 
 struct mot;

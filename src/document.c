@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "document.h"
 
 void ajouter_mot(struct document* doc, int  indice, int nombre_occurence){
