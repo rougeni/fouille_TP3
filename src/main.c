@@ -5,6 +5,6 @@
 #include "parsing.h"
 
 int main (int argc, char **argv){
-	printf("main");
+	printf("\n main \n");
 	return 0;
 }
