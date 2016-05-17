@@ -7,15 +7,18 @@ rand:
 
 document:
 	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/document.c -o bin/document.o
-	
-bernoulli: document
+
+modele:
+	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/modele.c -o bin/modele.o
+
+bernoulli:
 	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/bernoulli.c -o bin/bernoulli.o
 
-multinomial: document
-	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/multinomial.c bin/document.o -o bin/multinomial.o
+multinomial:
+	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/multinomial.c -o bin/multinomial.o
 
-main: document parsing rand bernoulli
-	gcc -O3 -std=gnu99 -Wall -Werror -g src/main.c bin/parsing.o bin/document.o bin/rand.o bin/bernoulli.o -o bin/main
+main: document parsing rand bernoulli modele
+	gcc -O3 -std=gnu99 -Wall -Werror -g src/main.c bin/parsing.o bin/document.o bin/rand.o bin/bernoulli.o bin/modele.o -o bin/main
 
 test_doc: document
 	gcc -O3 -std=gnu99 -Wall -Werror -g src/test_doc.c bin/document.o -o bin/test_doc
