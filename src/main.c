@@ -69,7 +69,7 @@ int main (int argc, char **argv){
   }
     
     
-  
+  struct modeleBernoulli* modele = determinerParametreModeleBernoulli(29, baseEntrainement, 52500);
     
     
 
