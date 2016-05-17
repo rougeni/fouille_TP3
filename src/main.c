@@ -11,7 +11,7 @@
 int main (int argc, char **argv){
 
   //Creer l'ensemble de documents encodé dans le fichier
-  struct document* ensemble_documents = parseBase("../BaseReuters-29");
+  struct document* ensemble_documents = parseBase("./../BaseReuters-29");
 
   int tailleVocabulaire = 0;
 

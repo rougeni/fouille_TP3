@@ -1,79 +1,85 @@
 #include "parsing.h"
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 
 //TO BE REMOVED
 #include <stdio.h>
 
 void parseMot(struct document* doc,const char * word) {
-	if (word ==  NULL) {
-		return;
-	}
+  if (word ==  NULL) {
+    return;
+  }
 
-	if (*word ==  '\0' || *word == ' ')
-		return;
+  if (*word ==  '\0' || *word == ' ')
+    return;
 
-	char * wrd = strdup(word);
-	int i = 0;
-	int indice;
-	int nbr_occur;
-	while (wrd[i] != ':') {
-		i++;
-	}
-	wrd[i] = '\0';
-	indice = atoi(wrd);
-	nbr_occur = atoi(wrd+i+1);
-	free(wrd);
-	ajouter_mot(doc,indice,nbr_occur);
+  if (strlen(word) <= 1)
+    return;
+
+  char * wrd = strdup(word);
+  int i = 0;
+  int indice;
+  int nbr_occur;
+  while (wrd[i] != ':') {
+    i++;
+  }
+  wrd[i] = '\0';
+  indice = atoi(wrd);
+  nbr_occur = atoi(wrd+i+1);
+  free(wrd);
+  ajouter_mot(doc,indice,nbr_occur);
 }
 
 struct document* parseLine(struct document* ens_doc, const char * line) {
-	char *buf = NULL;
-	char **bp = NULL;
-	char *tok = NULL;
-	int cat;
-	struct document* ens_docu;
+  char *buf = NULL;
+  char **bp = NULL;
+  char *tok = NULL;
+  int cat;
+  struct document* ens_docu;
 	
-	buf = strdup(line);
-	printf("%s YOLO\n",buf);
-	bp = &buf;
+  buf = strdup(line);
+  bp = &buf;
 
-	tok = strsep(bp, " ");
-	cat = atoi(tok);
+  tok = strsep(bp, " ");
+  cat = atoi(tok);
 
-	ens_docu = creer_document(ens_doc,cat);
+  ens_docu = creer_document(ens_doc,cat);
 	
-	while((tok = strsep(bp, " ")) != NULL){
-		parseMot(ens_docu,tok);
-	}
+  while((tok = strsep(bp, " ")) != NULL){
+    parseMot(ens_docu,tok);
+  }
 	
-	free(buf);
-	return ens_docu;
+  free(buf);
+  return ens_docu;
 }
 
 
 struct document* parseBase(const char *filename) {
-	struct document* ens_doc;
+  struct document* ens_doc = NULL;
 
-	FILE * fp;
-	char * line = NULL;
-	size_t len = 0;
-	ssize_t read;
+  FILE * fp;
+  char * line = NULL;
+  size_t len = 0;
+  ssize_t read;
+  char *fl = realpath(filename, NULL);
+  
+  fp = fopen(fl, "r");
+  if (fp == NULL) {
+    printf("Error : can't open file!\n");
+    exit(EXIT_FAILURE);
+  }
 
-	fp = fopen(filename, "r");
-	if (fp == NULL) {
-		printf("Error!");
-		exit(EXIT_FAILURE);
-	}
-	
-	while ((read = getline(&line, &len, fp)) != -1) {
-		ens_doc = parseLine(ens_doc,line);
-	}
+  int i = 0;
+  while ((read = getline(&line, &len, fp)) != -1) {
+    ens_doc = parseLine(ens_doc,line);
+    i++;
+  }
 
-	fclose(fp);
-
-	free(line);
-	return ens_doc;
+  fclose(fp);
+  free(fl);
+  free(line);
+  return ens_doc;
 
 }
