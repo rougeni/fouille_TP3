@@ -8,6 +8,7 @@ int main (int argc, char **argv){
 	parseMot(&test,"0:0");
 	printf("Test 0:0 => %i:%i\n",test.vecteur[0].indice, test.vecteur[0].nombre_occurence);
 
+	printf("Test Parse Line\n");
 	struct document *ensemble_doc = NULL;
 	ensemble_doc = parseLine(ensemble_doc,"1 1:1 2:2 3:3\n");
 	printf("Cat : %i\n",ensemble_doc->categorie);
@@ -17,9 +18,10 @@ int main (int argc, char **argv){
 		ptr = ptr->suivant;
 	}
 	printf("\n");
-	printf("EBD\n");
+	printf("Fin test parseLine\n");
 
+	printf("\nParse Base Reuters\n");
 	parseBase("BaseReuters-29");
-	printf("FILS DE PUTE\n");
+	printf("Base Reuters parser\n");
 	return 0;
 }
