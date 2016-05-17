@@ -21,7 +21,7 @@ int main (int argc, char **argv){
 	printf("Fin test parseLine\n");
 
 	printf("\nParse Base Reuters\n");
-	parseBase("BaseReuters-29");
+	parseBase("../BaseReuters-29");
 	printf("Base Reuters parser\n");
 	return 0;
 }

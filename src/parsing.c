@@ -1,6 +1,7 @@
 #include "parsing.h"
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 
 //TO BE REMOVED
@@ -62,8 +63,9 @@ struct document* parseBase(const char *filename) {
   char * line = NULL;
   size_t len = 0;
   ssize_t read;
-
-  fp = fopen(filename, "r");
+  char *fl = realpath(filename, NULL);
+  
+  fp = fopen(fl, "r");
   if (fp == NULL) {
     printf("Error : can't open file!\n");
     exit(EXIT_FAILURE);
@@ -76,7 +78,7 @@ struct document* parseBase(const char *filename) {
   }
 
   fclose(fp);
-
+  free(fl);
   free(line);
   return ens_doc;
 
