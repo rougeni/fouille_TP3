@@ -44,20 +44,20 @@ int main (int argc, char **argv){
 
     if (tabIndiceRand[incrBaseTest] == incr){
       if (baseTest == NULL){
-	baseTest = cour;
+          baseTest = cour;
       }
       else {
-	  coursTest->suivant = cour;
+          coursTest->suivant = cour;
       }
       coursTest = cour;
       incrBaseTest++;
     }
     else{
       if (baseEntrainement == NULL){
-	baseEntrainement = cour;
+          baseEntrainement = cour;
       }
       else {
-	  coursEntrainement->suivant = cour;
+          coursEntrainement->suivant = cour;
       }
       coursEntrainement = cour;
     }
@@ -67,6 +67,10 @@ int main (int argc, char **argv){
     incr++;
 
   }
+    
+    
   
+    
+    
 
 }
