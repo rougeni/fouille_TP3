@@ -1,28 +1,20 @@
 #ifndef DEF_MODELE
 #define DEF_MODELE
 
-struct probaOccurence;
-struct probaOccurence{
+struct probaOccurrence;
+struct probaOccurrence{
 	int indice;
 	double proba;
-	struct probaOccurence* suivante;
+	struct probaOccurrence* suivante;
+        struct probaOccurrence* precedente;
 };
 
-struct modeleBernoulli;
-struct modeleBernoulli{
+struct modele;
+struct modele{
   //tableau de la distribution des classes
-  double* tabProbaClasse;
+  double* Pi;
   //tableau des probabilites d'occurence des termes pour chaque classe
-  struct probaOccurence** tabProbaOccurence;
-};
-
-struct modeleMultinomial;
-struct modeleMultinomial{
-  //tableau de la distribution des classes
-  double* tabProbaClasse;
-  double* D;
-  //tableau des probabilites d'occurence des termes pour chaque classe
-  struct probaOccurence** tabProbaOccurence;
+  struct probaOccurrence** PC;
 };
 
 #endif

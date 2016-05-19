@@ -2,19 +2,20 @@
 #include <stdlib.h>
 
 
-void remplirListeProbaOcurence(struct probaOccurence* listeProba, struct document* doc){
+void modifTabPCk(struct probaOccurrence* PCk, struct mot* doc){
 
-  struct mot* courMot = doc->vecteur;
-  struct probaOccurence* courProba = listeProba;
+  struct mot* courMot = doc;
+  struct probaOccurrence* courProba = PCk;
 
   while( courMot != NULL ){
     
     //Si la liste des probas est vide
     if (courProba == NULL){
-      courProba = malloc(sizeof(struct probaOccurence));
+      courProba = malloc(sizeof(struct probaOccurrence));
       courProba->indice = courMot->indice;
       courProba->proba = 1;
       courProba->suivante = NULL;
+      courProba->precedente = NULL;
     }
     else{
       //Si le terme a déjà été observe dans un document de la classe
@@ -24,21 +25,28 @@ void remplirListeProbaOcurence(struct probaOccurence* listeProba, struct documen
 	//Si l'indice du terme est superieur à tous les indices des termes 
 	//precedemment relevés, on ajoute en tete sa proba d'occurence
 	if ( courProba->indice < courMot->indice ){
-	  struct probaOccurence* nouvelleTete = malloc(sizeof(struct probaOccurence));
+	  struct probaOccurrence* nouvelleTete = malloc(sizeof(struct probaOccurrence));
 	  nouvelleTete->indice = courMot->indice;
 	  nouvelleTete->proba = 1;
-	  nouvelleTete->suivante = listeProba;
-	  listeProba = nouvelleTete;
-	  courProba = listeProba;
+	  nouvelleTete->suivante = courProba;
+	  nouvelleTete->precedente = courProba->precedente;
+          if( courProba->precedente == NULL ){
+              PCk = nouvelleTete;
+          }
+          else{
+              courProba->precedente->suivante = nouvelleTete;
+          }
+          courProba->precedente = nouvelleTete;
 	}
 	else{
 	  //Si le terme n'a pas ete observé et que son indice est inferieur 
 	  //à tous les autres observés, on l'insere en queue
 	  if (courProba->suivante == NULL ){
-	    struct probaOccurence* nouvelleQueue = malloc(sizeof(struct probaOccurence));
+	    struct probaOccurrence* nouvelleQueue = malloc(sizeof(struct probaOccurrence));
 	    nouvelleQueue->indice = courMot->indice;
 	    nouvelleQueue->proba = 1;
 	    nouvelleQueue->suivante = NULL;
+            nouvelleQueue->precedente = courProba;
 	    courProba->suivante = nouvelleQueue;
 	    courProba = nouvelleQueue;
 	  }
@@ -46,13 +54,13 @@ void remplirListeProbaOcurence(struct probaOccurence* listeProba, struct documen
 	    //Si l'indice du terme est compris entre les indices des termes 
 	    //courant et suivant, on l'insere entre les deux
 	    if (courProba->suivante->indice < courMot->indice){
-	      struct probaOccurence* nouvelleProba = malloc(sizeof(struct probaOccurence));
-	    nouvelleProba->indice = courMot->indice;
-	    nouvelleProba->proba = 1;
-	    nouvelleProba->suivante = courProba->suivante;
-	    courProba->suivante = nouvelleProba;
-	    courProba = nouvelleProba;
-
+	      struct probaOccurrence* nouvelleProba = malloc(sizeof(struct probaOccurrence));
+                nouvelleProba->indice = courMot->indice;
+                nouvelleProba->proba = 1;
+                nouvelleProba->suivante = courProba->suivante;
+                nouvelleProba->precedente = courProba;
+                courProba->suivante = nouvelleProba;
+                courProba = nouvelleProba;
 	    }
 	    
 	    else{
@@ -60,10 +68,11 @@ void remplirListeProbaOcurence(struct probaOccurence* listeProba, struct documen
 	      //encadrant l'indice actuel
 	      while( (courProba->suivante != NULL) && (courProba->suivante->indice > courMot->indice) ) {courProba = courProba->suivante;}
 	      if (courProba->suivante == NULL){
-		struct probaOccurence* nouvelleQueue = malloc(sizeof(struct probaOccurence));
+		struct probaOccurrence* nouvelleQueue = malloc(sizeof(struct probaOccurrence));
 		nouvelleQueue->indice = courMot->indice;
 		nouvelleQueue->proba = 1;
 		nouvelleQueue->suivante = NULL;
+                nouvelleQueue->precedente = courProba;
 		courProba->suivante = nouvelleQueue;
 		courProba = nouvelleQueue;
 	      }
@@ -76,10 +85,11 @@ void remplirListeProbaOcurence(struct probaOccurence* listeProba, struct documen
 		}
 		else{
 		  //sinon, encadrement strict et on insere
-		  struct probaOccurence* nouvelleProba = malloc(sizeof(struct probaOccurence));
+		  struct probaOccurrence* nouvelleProba = malloc(sizeof(struct probaOccurrence));
 		  nouvelleProba->indice = courMot->indice;
 		  nouvelleProba->proba = 1;
 		  nouvelleProba->suivante = courProba->suivante;
+                  nouvelleProba->precedente = courProba;
 		  courProba->suivante = nouvelleProba;
 		  courProba = nouvelleProba;
 		}
@@ -97,66 +107,50 @@ void remplirListeProbaOcurence(struct probaOccurence* listeProba, struct documen
 }
 
 
-double determinerParametreClasse(int classe, struct probaOccurence* listeProba, struct document* ensemble_documents,int nbDocuments){
 
-  //probabilite qu'un document soit de la classe etudiee
-  double probaClasse = 0; 
+void determinerParametres(double* tabPi,struct probaOccurrence** tabPC, struct document* ensemble_documents, int nbDocuments){
 
-  struct document* cour = ensemble_documents;
-
-  //parcours de l'ensemble des documents
-  while ( cour != NULL ){
-
-    //si le document courant est de la classe à étudier
-    if(cour->categorie == classe){
-      //comptage du nombre de docs dans classe
-      probaClasse++;
-      //Modification de la liste des probabilites d'occurrence des 
-      //mots dans la classe avec le contenu du doc courant
-      remplirListeProbaOcurence(listeProba, cour);      
+    struct document* docCour = ensemble_documents;
+    
+    while ( docCour != NULL ){
+        
+        tabPi[docCour->categorie]++;
+        modifTabPCk(tabPC[docCour->categorie], docCour->vecteur);
+        
+        docCour = docCour->suivant;
+        
     }
-
-    cour = cour->suivant;
     
-  }
-
-
-  struct probaOccurence* courProba = listeProba;
-  
-  //reparcours de la liste des probabilites pour les calculer
-  //avec le nombre de documents de docs de la classe  
-  while (courProba != NULL){
-
-    courProba->proba = (courProba->proba + 1)/(probaClasse + 2);
-    courProba = courProba->suivante;
+    struct probaOccurrence* probaCour = NULL;
     
-  }
-
-  probaClasse /= nbDocuments;
-
-  return probaClasse;
+    for (int k = 0; k < 29 ; k++){
+        
+        probaCour = tabPC[k];
+        int Nk = tabPi[k];
+        while(probaCour != NULL){
+            probaCour->proba = (probaCour->proba + 1)/(Nk + 2);
+            probaCour = probaCour->suivante;
+        }
+        
+        tabPi[k] /= nbDocuments;
+          
+    } 
 
 }
 
 
-struct modeleBernoulli* determinerParametreModeleBernoulli(int nbClasses, struct document* ensemble_documents, int nbDocuments){
+struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_documents, int nbDocuments){
 
   //tableau de la distribution des classes
-  double* tabProbaClasses = malloc( nbClasses*sizeof(double) );
+  double* tabPi = malloc( nbClasses*sizeof(double) );
   //tableau des probabilites d'occurence des termes pour chaque classe
-  struct probaOccurence** tabProbaOccurences = malloc(nbClasses*sizeof(struct probaOccurence*));
+  struct probaOccurrence** tabPC = malloc(nbClasses*sizeof(struct probaOccurrence*));
 
-  int i = 0;
-  for( i = 0; i < nbClasses; i++ ){
-    tabProbaOccurences[i] = NULL;
-    //Calcul de la probabilite d'appartenannce à classe i
-    //et construction liste probas d'occurence pour classe i
-    tabProbaClasses[i] = determinerParametreClasse(i+1, tabProbaOccurences[i], ensemble_documents, nbDocuments);
-  }
+  determinerParametres(tabPi, tabPC, ensemble_documents, nbDocuments);
 
-  struct modeleBernoulli* modele = malloc( sizeof(struct modeleBernoulli) );
-  modele->tabProbaClasse = tabProbaClasses;
-  modele->tabProbaOccurence = tabProbaOccurences;
+  struct modele* modele = malloc( sizeof(struct modele) );
+  modele->Pi = tabPi;
+  modele->PC = tabPC;
 
   return modele;
 

@@ -42,16 +42,19 @@ int main (int argc, char **argv){
 
     if ( cour->vecteur->indice > tailleVocabulaire ) tailleVocabulaire =  cour->vecteur->indice;
 
-    if (tabIndiceRand[incrBaseTest] == incr){
-      if (baseTest == NULL){
-          baseTest = cour;
-      }
-      else {
-          coursTest->suivant = cour;
-      }
-      coursTest = cour;
-      incrBaseTest++;
+    if ( incrBaseTest < 18203 ){
+        if  (tabIndiceRand[incrBaseTest] == incr){
+            if (baseTest == NULL){
+                baseTest = cour;
+            }
+            else {
+                coursTest->suivant = cour;
+            }
+            coursTest = cour;
+            incrBaseTest++;
+        }
     }
+    
     else{
       if (baseEntrainement == NULL){
           baseEntrainement = cour;
@@ -69,8 +72,8 @@ int main (int argc, char **argv){
   }
     
     
-  struct modeleBernoulli* modele = determinerParametreModeleBernoulli(29, baseEntrainement, 52500);
+  struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500);
     
-    
+  printf("%f", modeleBernoulli->Pi[1]);
 
 }
