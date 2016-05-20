@@ -1,3 +1,7 @@
 BaseReuters-29*
 BaseReuters-29.bz2
 bin/
+*.aux
+*.log
+*.out
+*.pdf

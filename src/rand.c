@@ -1,5 +1,7 @@
 #include "rand.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 
 /* fonction utilisateur de comparaison fournie a qsort() */
 static int compare (void const *a, void const *b)
@@ -26,9 +28,8 @@ int* tabRand(int taille, int tailleEntrainement){
 
     int nombre_tire=0;
     int temp=0;
-
+    srand(time(NULL));
     
-
     for(i = 0; i< taille;i++){
         nombre_tire = rand()%taille;
 

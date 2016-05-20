@@ -12,7 +12,7 @@
 int main (int argc, char **argv){
 
   //Creer l'ensemble de documents encodé dans le fichier
-  struct document* ensemble_documents = parseBase("./../BaseReuters-29");
+  struct document* ensemble_documents = parseBase("BaseReuters-29");
 
   int tailleVocabulaire = 0;
 
@@ -88,14 +88,14 @@ int main (int argc, char **argv){
   
   free(tabIndiceRand);
   
-  /*
+  
   printf("taille baseTest %d\n", incrBaseTest);
   
-  printf("nb doc %d et taille voc %d\n", incr, tailleVocabulaire);
+  /*printf("nb doc %d et taille voc %d\n", incr, tailleVocabulaire);
   
   for (i = 0; i < 29; i++){
     printf("nb docs classe %d : %d\n", i+1, tabDistribution[i]);
-  } 
+  }*/ 
   
   
   coursEntrainement = baseEntrainement;
@@ -107,7 +107,7 @@ int main (int argc, char **argv){
   }
   
   printf("nb docs entrainement %d \n", incr);
-  */
+  
   
   
    
