@@ -74,6 +74,7 @@ int main (int argc, char **argv){
 
   }
   
+  free(tabIndiceRand);
   
   /*
   printf("taille baseTest %d\n", incrBaseTest);
@@ -101,18 +102,19 @@ int main (int argc, char **argv){
   struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500);
   //struct modeleMultinomial* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
   
-  while( baseEntrainement != NULL ){
+  /*while( baseEntrainement != NULL ){
       baseEntrainement = supprimer_document(baseEntrainement);
-  } 
+  } */
   
   
-  printf("%f", modeleBernoulli->Pi[1]);
+  printf("%f", (modeleBernoulli->Pi)[1]);
+  supprimerModele(modeleBernoulli);
   //printf("%f", modeleMultinomial->modeleM.Pi[1]);
   //printf("%d", testBernoulli(baseTest, tailleVocabulaire, 29, modeleBernoulli));
-  /*
+ /*
   while( baseTest != NULL ){
       baseTest = supprimer_document(baseTest);
-  } 
-  */
+  } */
+ 
 
 }

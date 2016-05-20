@@ -3,6 +3,7 @@
 #include <math.h>
 
 
+
 void modifTabPCkBernoulli(struct probaOccurrence* PCk, struct mot* doc){
 
   struct mot* courMot = doc;
@@ -112,7 +113,7 @@ void determinerParametresBernoulli(double* tabPi,struct probaOccurrence** tabPC,
     while ( docCour != NULL ){
         
         tabPi[docCour->categorie]++;
-        modifTabPCkBernoulli(tabPC[docCour->categorie], docCour->vecteur);
+        //modifTabPCkBernoulli(tabPC[docCour->categorie], docCour->vecteur);
         
         docCour = docCour->suivant;
         
@@ -148,13 +149,15 @@ struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_d
       tabPC[k] = NULL;
   }
 
-  determinerParametresBernoulli(tabPi, tabPC, ensemble_documents, nbDocuments);
+  //determinerParametresBernoulli(tabPi, tabPC, ensemble_documents, nbDocuments);
 
-  struct modele* modele = malloc( sizeof(struct modele) );
+  /*struct modele* modele = malloc( sizeof(struct modele) );
   modele->Pi = tabPi;
-  modele->PC = tabPC;
+  modele->PC = tabPC;*/
+  
+  
 
-  return modele;
+  return NULL;
 
 }
 

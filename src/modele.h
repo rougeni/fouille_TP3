@@ -17,6 +17,8 @@ struct modele{
   struct probaOccurrence** PC;
 };
 
+void supprimerModele(struct modele* M);
+
 
 struct modeleMultinomial;
 struct modeleMultinomial{
