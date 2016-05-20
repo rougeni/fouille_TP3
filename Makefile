@@ -17,7 +17,7 @@ bernoulli:
 multinomial:
 	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/multinomial.c -o bin/multinomial.o
 
-main: document parsing rand bernoulli modele
+main: document parsing rand bernoulli multinomial modele
 	gcc -O3 -std=gnu99 -Wall -Werror -g src/main.c bin/parsing.o bin/document.o bin/rand.o bin/bernoulli.o bin/modele.o -o bin/main
 
 test_doc: document

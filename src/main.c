@@ -5,7 +5,7 @@
 #include "parsing.h"
 #include "document.h"
 #include "bernoulli.h"
-//#include "multinomial.h"
+#include "multinomial.h"
 #include "rand.h"
 
 int main (int argc, char **argv){
@@ -73,7 +73,10 @@ int main (int argc, char **argv){
     
     
   struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500);
+  struct modeleMultinomial* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
     
   printf("%f", modeleBernoulli->Pi[1]);
+  printf("%f", modeleMultinomial->modeleM.Pi[1]);
+  
 
 }

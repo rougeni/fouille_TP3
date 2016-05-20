@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-void modifTabPCk(struct probaOccurrence* PCk, struct mot* doc){
+void modifTabPCkBernoulli(struct probaOccurrence* PCk, struct mot* doc){
 
   struct mot* courMot = doc;
   struct probaOccurrence* courProba = PCk;
@@ -108,14 +108,14 @@ void modifTabPCk(struct probaOccurrence* PCk, struct mot* doc){
 
 
 
-void determinerParametres(double* tabPi,struct probaOccurrence** tabPC, struct document* ensemble_documents, int nbDocuments){
+void determinerParametresBernoulli(double* tabPi,struct probaOccurrence** tabPC, struct document* ensemble_documents, int nbDocuments){
 
     struct document* docCour = ensemble_documents;
     
     while ( docCour != NULL ){
         
         tabPi[docCour->categorie]++;
-        modifTabPCk(tabPC[docCour->categorie], docCour->vecteur);
+        modifTabPCkBernoulli(tabPC[docCour->categorie], docCour->vecteur);
         
         docCour = docCour->suivant;
         
@@ -146,7 +146,7 @@ struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_d
   //tableau des probabilites d'occurence des termes pour chaque classe
   struct probaOccurrence** tabPC = malloc(nbClasses*sizeof(struct probaOccurrence*));
 
-  determinerParametres(tabPi, tabPC, ensemble_documents, nbDocuments);
+  determinerParametresBernoulli(tabPi, tabPC, ensemble_documents, nbDocuments);
 
   struct modele* modele = malloc( sizeof(struct modele) );
   modele->Pi = tabPi;

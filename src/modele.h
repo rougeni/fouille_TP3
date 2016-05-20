@@ -17,4 +17,11 @@ struct modele{
   struct probaOccurrence** PC;
 };
 
+
+struct modeleMultinomial;
+struct modeleMultinomial{
+    struct modele modeleM;
+    int* denomPC;
+};
+
 #endif
