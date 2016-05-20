@@ -5,14 +5,7 @@
 
 void supprimerModele(struct modele* M){
     free(M->Pi);
-    for(int i = 0; i < 29; i++){
-        struct probaOccurrence* probaCour = M->PC[i];
-        while(M->PC[i] != NULL){
-            M->PC[i] = M->PC[i]->suivante;
-            free(probaCour);
-            probaCour = M->PC[i];
-        }
-    }
+    for(int k = 0; k < 29; k++) free(M->PC[k]);
     free(M->PC);
     free(M);
 }
