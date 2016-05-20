@@ -78,7 +78,7 @@ struct modele* apprentissageMultinomial(int nbClasses, struct document* ensemble
 int testMultinomial(struct document* doc, int nbClasses, struct modele* modeleApprentissage){
     
     double PiF;
-    double PiFMax;
+    double PiFMax = 0;
     int kMax = 1;
     
     for(int k = 0; k < nbClasses; k++){
