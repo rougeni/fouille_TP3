@@ -31,20 +31,31 @@ int main (int argc, char **argv){
   int* tabIndiceRand = tabRand(70703, 18203);
   //Base de test à constituer
   struct document* baseTest = NULL;
+  //dernier doc courant de baseTest
   struct document* coursTest = NULL;
+  //Base d'entrainement à constituer
   struct document* baseEntrainement = NULL;
+  //dernier doc courant de baseEntrainement
   struct document* coursEntrainement = NULL;
+  //nb de docs dans baseTest
   int incrBaseTest = 0;
   int incr = 0;
 
+  //parcours de ensemble_document a separer entre 
+  //baseTest et baseEntrainement
   while ( cour != NULL ){
 
+    //Calcul de Nk
     tabDistribution[cour->categorie - 1]++;
 
+    //Calcul de V
     if ( cour->vecteur->indice > tailleVocabulaire ) tailleVocabulaire =  cour->vecteur->indice;
 
+    //S'il reste encore des elements à mettre dans baseTest
     if ( incrBaseTest < 18203 ){
+        //Si le document courant doit etre dans baseTest
         if  (tabIndiceRand[incrBaseTest] == incr){
+            //Si c'est le premier element
             if (baseTest == NULL){
                 baseTest = cour;
             }
@@ -54,6 +65,7 @@ int main (int argc, char **argv){
             coursTest = cour;
             cour = cour->suivant;
             coursTest->suivant = NULL;
+            //Il y a un document de plus dans baseTest
             incrBaseTest++;
         }
     }
