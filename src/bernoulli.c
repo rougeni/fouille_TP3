@@ -1,5 +1,6 @@
 #include "bernoulli.h"
 #include <stdlib.h>
+#include <math.h>
 
 
 void modifTabPCkBernoulli(struct probaOccurrence* PCk, struct mot* doc){
@@ -16,6 +17,7 @@ void modifTabPCkBernoulli(struct probaOccurrence* PCk, struct mot* doc){
       courProba->proba = 1;
       courProba->suivante = NULL;
       courProba->precedente = NULL;
+      PCk = courProba;
     }
     else{
       //Si le terme a déjà été observe dans un document de la classe
@@ -29,14 +31,9 @@ void modifTabPCkBernoulli(struct probaOccurrence* PCk, struct mot* doc){
 	  nouvelleTete->indice = courMot->indice;
 	  nouvelleTete->proba = 1;
 	  nouvelleTete->suivante = courProba;
-	  nouvelleTete->precedente = courProba->precedente;
-          if( courProba->precedente == NULL ){
-              PCk = nouvelleTete;
-          }
-          else{
-              courProba->precedente->suivante = nouvelleTete;
-          }
-          courProba->precedente = nouvelleTete;
+	  nouvelleTete->precedente = NULL;
+          PCk = nouvelleTete;
+          courProba = nouvelleTete;
 	}
 	else{
 	  //Si le terme n'a pas ete observé et que son indice est inferieur 
@@ -154,6 +151,55 @@ struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_d
 
   return modele;
 
+}
+
+
+int testBernoulli(struct document* doc, int V, int nbClasses, struct modele* modeleApprentissage){
+    
+    double PiF;
+    double PiFMax;
+    int kMax = 1;
+    
+    for(int k = 0; k < nbClasses; k++){
+        int i = V;
+        PiF = log((modeleApprentissage->Pi)[k]);
+        int Nk = 52500*(modeleApprentissage->Pi)[k];
+        double probaDefaut = 1/(Nk + 2);
+        struct probaOccurrence* probaCour = (modeleApprentissage->PC)[k];
+        double probaI;
+        struct mot* d = doc->vecteur;
+        while (i > 0){
+            
+            if (probaCour->indice == i){
+                probaI= probaCour->proba;
+                probaCour = probaCour->suivante;
+            }
+            else  probaI = probaDefaut;
+            
+            if(d->indice == i){
+                PiF += log(probaI);
+                d = d->suivant;
+            }
+            else PiF += log(1 - probaI);
+            
+            i--;
+        }
+        
+        if (k == 0){
+            PiFMax = PiF;
+        }
+        else{
+            if (PiFMax < PiF){
+                PiFMax = PiF;
+                kMax = k + 1;
+            }
+        }
+        
+        
+    }
+    
+    return kMax;
+    
 }
 
 

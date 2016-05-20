@@ -7,6 +7,7 @@
 #include "bernoulli.h"
 #include "multinomial.h"
 #include "rand.h"
+#include <stdio.h>
 
 int main (int argc, char **argv){
 
@@ -38,7 +39,7 @@ int main (int argc, char **argv){
 
   while ( cour != NULL ){
 
-    tabDistribution[cour->categorie]++;
+    tabDistribution[cour->categorie - 1]++;
 
     if ( cour->vecteur->indice > tailleVocabulaire ) tailleVocabulaire =  cour->vecteur->indice;
 
@@ -51,6 +52,8 @@ int main (int argc, char **argv){
                 coursTest->suivant = cour;
             }
             coursTest = cour;
+            cour = cour->suivant;
+            coursTest->suivant = NULL;
             incrBaseTest++;
         }
     }
@@ -63,20 +66,53 @@ int main (int argc, char **argv){
           coursEntrainement->suivant = cour;
       }
       coursEntrainement = cour;
+      cour = cour->suivant;
+      coursEntrainement->suivant = NULL;
     }
-
-    cour = cour->suivant;
 
     incr++;
 
   }
-    
-    
-  struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500);
-  struct modeleMultinomial* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
-    
-  printf("%f", modeleBernoulli->Pi[1]);
-  printf("%f", modeleMultinomial->modeleM.Pi[1]);
   
+  
+  /*
+  printf("taille baseTest %d\n", incrBaseTest);
+  
+  printf("nb doc %d et taille voc %d\n", incr, tailleVocabulaire);
+  
+  for (i = 0; i < 29; i++){
+    printf("nb docs classe %d : %d\n", i+1, tabDistribution[i]);
+  } 
+  
+  
+  coursEntrainement = baseEntrainement;
+  
+  incr = 0;
+  while( coursEntrainement != NULL ){
+      incr++;
+      coursEntrainement = coursEntrainement->suivant;
+  }
+  
+  printf("nb docs entrainement %d \n", incr);
+  */
+  
+  
+   
+  struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500);
+  //struct modeleMultinomial* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
+  
+  while( baseEntrainement != NULL ){
+      baseEntrainement = supprimer_document(baseEntrainement);
+  } 
+  
+  
+  printf("%f", modeleBernoulli->Pi[1]);
+  //printf("%f", modeleMultinomial->modeleM.Pi[1]);
+  //printf("%d", testBernoulli(baseTest, tailleVocabulaire, 29, modeleBernoulli));
+  /*
+  while( baseTest != NULL ){
+      baseTest = supprimer_document(baseTest);
+  } 
+  */
 
 }

@@ -12,7 +12,9 @@ void modifTabPCkBernoulli(struct probaOccurrence* PCk, struct mot* doc);
 void determinerParametresBernoulli(double* tabPi,struct probaOccurrence** tabPC, struct document* ensemble_documents, int nbDocuments);
 
 //Calculer les parametres du modele de Bernoulli à partir des données d'entrée
-struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_documents, int nbDocuments); 
+struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_documents, int nbDocuments);
+
+int testBernoulli(struct document* doc, int V, int nbClasses, struct modele* modeleApprentissage);
 
 
 #endif
