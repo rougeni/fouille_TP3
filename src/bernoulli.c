@@ -72,7 +72,7 @@ struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_d
 int testBernoulli(struct document* doc, int V, int nbClasses, struct modele* modeleApprentissage){
     
     double PiF;
-    double PiFMax;
+    double PiFMax = 0;
     int kMax = 1;
     
     for(int k = 0; k < nbClasses; k++){
