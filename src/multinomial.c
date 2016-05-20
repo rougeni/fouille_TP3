@@ -154,6 +154,11 @@ struct modeleMultinomial* apprentissageMultinomial(int nbClasses, struct documen
   double* tabPi = malloc( nbClasses*sizeof(double) );
   //tableau des probabilites d'occurence des termes pour chaque classe
   struct probaOccurrence** tabPC = malloc(nbClasses*sizeof(struct probaOccurrence*));
+  
+  for(int k = 0; k < nbClasses; k++){
+      tabPi[k] = 0;
+      tabPC[k] = NULL;
+  }
 
   int* denomPC = determinerParametresMultinomial(tabPi, tabPC, ensemble_documents, nbDocuments, V);
 
