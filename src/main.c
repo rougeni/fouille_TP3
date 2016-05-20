@@ -99,8 +99,8 @@ int main (int argc, char **argv){
   
   
    
-  struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500, tailleVocabulaire);
-  //struct modeleMultinomial* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
+  //struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500, tailleVocabulaire);
+  struct modele* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
   
   /*
   while( baseEntrainement != NULL ){
@@ -109,14 +109,19 @@ int main (int argc, char **argv){
   
   struct document* docCour = baseTest;
   double reussites = 0;
-  while(docCour != NULL){
+  /*while(docCour != NULL){
     if ( testBernoulli(baseTest, tailleVocabulaire, 29, modeleBernoulli) == docCour->categorie ) reussites++;
+    docCour = docCour->suivant;
+  }*/
+
+  while (docCour != NULL){
+    if(testMultinomial(baseTest,29,modeleMultinomial) == docCour->categorie) reussites++;
     docCour = docCour->suivant;
   }
   
   printf("reussites %f\n", reussites/18203);
   
-  supprimerModele(modeleBernoulli);
+  //supprimerModele(modeleBernoulli);
   //printf("%f", modeleMultinomial->modeleM.Pi[1]);
   //printf("%d", testBernoulli(baseTest, tailleVocabulaire, 29, modeleBernoulli));
  

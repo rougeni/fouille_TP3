@@ -14,6 +14,7 @@ void determinerParametresMultinomial(double* tabPi,double** tabPC, struct docume
 //Calculer les parametres du modele de Bernoulli à partir des données d'entrée
 struct modele* apprentissageMultinomial(int nbClasses, struct document* ensemble_documents, int nbDocuments, int V); 
 
+int testMultinomial(struct document* doc, int nbClasses, struct modele* modeleApprentissage);
 
 #endif
 
