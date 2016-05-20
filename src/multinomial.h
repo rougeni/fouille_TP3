@@ -9,10 +9,10 @@ void modifTabPCkMultinomial(double* PCk, struct mot* doc);
 
 //Calculer la probabilite empirique de la classe et construire listeProba avec les probabilites 
 //d'occurence des termes pour un doc de classe
-int* determinerParametresMultinomial(double* tabPi,double** tabPC, struct document* ensemble_documents, int nbDocuments, int V);
+void determinerParametresMultinomial(double* tabPi,double** tabPC, struct document* ensemble_documents, int nbDocuments, int V);
 
 //Calculer les parametres du modele de Bernoulli à partir des données d'entrée
-struct modeleMultinomial* apprentissageMultinomial(int nbClasses, struct document* ensemble_documents, int nbDocuments, int V); 
+struct modele* apprentissageMultinomial(int nbClasses, struct document* ensemble_documents, int nbDocuments, int V); 
 
 
 #endif

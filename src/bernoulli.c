@@ -56,7 +56,7 @@ struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_d
       tabPC[k] = calloc(sizeof(double), V);
   }
 
-  determinerParametresBernoulli(tabPi, tabPC, ensemble_documents, nbDocuments, V);
+  //determinerParametresBernoulli(tabPi, tabPC, ensemble_documents, nbDocuments, V);
 
   struct modele* modele = malloc( sizeof(struct modele) );
   modele->Pi = tabPi;
@@ -82,11 +82,11 @@ int testBernoulli(struct document* doc, int V, int nbClasses, struct modele* mod
         while (i > 0){
             if(d != NULL){
                 if (d->indice == i){
-                    PiF += log(modeleApprentissage->PC[k][i]);
+                    PiF += log(modeleApprentissage->PC[k][i-1]);
                     d = d->suivant;
                 }
             }
-            else PiF += log(1 - modeleApprentissage->PC[k][i]);
+            else PiF += log(1 - modeleApprentissage->PC[k][i-1]);
             
             i--;
         }

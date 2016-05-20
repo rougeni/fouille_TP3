@@ -11,11 +11,4 @@ struct modele{
 
 void supprimerModele(struct modele* M);
 
-
-struct modeleMultinomial;
-struct modeleMultinomial{
-    struct modele modeleM;
-    int* denomPC;
-};
-
 #endif

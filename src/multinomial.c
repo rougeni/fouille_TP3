@@ -1,5 +1,6 @@
 #include "bernoulli.h"
 #include <stdlib.h>
+#include <math.h>
 
 
 void modifTabPCkMultinomial(double* PCk, struct mot* doc){
@@ -15,7 +16,7 @@ void modifTabPCkMultinomial(double* PCk, struct mot* doc){
 
 
 
-int* determinerParametresMultinomial(double* tabPi,double** tabPC, struct document* ensemble_documents, int nbDocuments, int V){
+void determinerParametresMultinomial(double* tabPi,double** tabPC, struct document* ensemble_documents, int nbDocuments, int V){
 
     struct document* docCour = ensemble_documents;
     int* denomPC = malloc(29*sizeof(int));
@@ -45,12 +46,13 @@ int* determinerParametresMultinomial(double* tabPi,double** tabPC, struct docume
           
     } 
     
-    return denomPC;
+    
+    free(denomPC);
 
 }
 
 
-struct modeleMultinomial* apprentissageMultinomial(int nbClasses, struct document* ensemble_documents, int nbDocuments, int V){
+struct modele* apprentissageMultinomial(int nbClasses, struct document* ensemble_documents, int nbDocuments, int V){
 
   //tableau de la distribution des classes
   double* tabPi = malloc( nbClasses*sizeof(double) );
@@ -62,19 +64,46 @@ struct modeleMultinomial* apprentissageMultinomial(int nbClasses, struct documen
       tabPC[k] = calloc(sizeof(double), V);
   }
 
-  int* denomPC = determinerParametresMultinomial(tabPi, tabPC, ensemble_documents, nbDocuments, V);
+  determinerParametresMultinomial(tabPi, tabPC, ensemble_documents, nbDocuments, V);
 
-  struct modeleMultinomial* modele = malloc( sizeof(struct modele) );
-  modele->modeleM.Pi = tabPi;
-  modele->modeleM.PC = tabPC;
-  modele->denomPC = denomPC;
+  struct modele* modeleM = malloc( sizeof(struct modele) );
+  modeleM->Pi = tabPi;
+  modeleM->PC = tabPC;
 
-  return modele;
+  return modeleM;
 
 }
 
 
-
+int testMultinomial(struct document* doc, int nbClasses, struct modele* modeleApprentissage){
+    
+    double PiF;
+    double PiFMax;
+    int kMax = 1;
+    
+    for(int k = 0; k < nbClasses; k++){
+        PiF = log((modeleApprentissage->Pi)[k]);
+        struct mot* d = doc->vecteur;
+        while (d != NULL){
+            PiF += (d->nombre_occurence)*((modeleApprentissage->PC)[k][d->indice-1]);
+        }
+        
+        if (k == 0){
+            PiFMax = PiF;
+        }
+        else{
+            if (PiFMax < PiF){
+                PiFMax = PiF;
+                kMax = k + 1;
+            }
+        }
+        
+        
+    }
+    
+    return kMax;
+    
+}
 
 
 
