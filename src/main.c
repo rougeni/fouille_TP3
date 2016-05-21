@@ -112,22 +112,24 @@ int main (int argc, char **argv){
   
   
    
-  struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500, tailleVocabulaire);
-  //struct modele* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
+  //struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500, tailleVocabulaire);
+  struct modele* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
   
   /*
   while( baseEntrainement != NULL ){
       baseEntrainement = supprimer_document(baseEntrainement);
   }*/
   
- 
   
   struct document* docCour = baseTest;
   double reussites = 0;
+  int indiceDoc = 1;
   while(docCour != NULL){
-    int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli);
+    //int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli);
+    int k = testMultinomial(docCour->vecteur, modeleMultinomial);  
     if ( k  == docCour->categorie ){ reussites += 1;}
     docCour = docCour->suivant;
+    indiceDoc++;
   }
   
   reussites /= 18203;

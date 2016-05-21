@@ -4,18 +4,6 @@
 #include <stdio.h>
 
 
-void modifTabPCkMultinomial(double* PCk, struct mot* doc){
-
- struct mot* courMot = doc;
-    
-    while( courMot != NULL ){
-        PCk[courMot->indice - 1] += courMot->nombre_occurence;
-        courMot = courMot->suivant;    
-    }
-  
-}
-
-
 
 void determinerParametresMultinomial(double* tabPi,double** tabPC, struct document* ensemble_documents, int nbDocuments, int V){
 
@@ -47,10 +35,10 @@ void determinerParametresMultinomial(double* tabPi,double** tabPC, struct docume
         
 
         for(int i = 0; i < V; i++){
-            tabPC[k][i] = (tabPC[k][i] + 1)/denomPC[k]; 
+            tabPC[k][i] = log((tabPC[k][i] + 1)/denomPC[k]); 
         }
         
-        tabPi[k] /= nbDocuments;
+        tabPi[k] = log(tabPi[k]/nbDocuments);
           
     } 
     
@@ -90,12 +78,12 @@ int testMultinomial(struct mot* doc, struct modele* modeleApprentissage){
     int kMax = 1;
     
     for(int k = 0; k < 29; k++){
-        
-        PiF = log(modeleApprentissage->Pi[k]);
+        PiF = modeleApprentissage->Pi[k];
         PiF = - 1;
         struct mot* d = doc;
         while (d != NULL){
-            PiF += (d->nombre_occurence)*((modeleApprentissage->PC)[k][d->indice-1]);
+            if (d->nombre_occurence > 0) PiF += (d->nombre_occurence)*(modeleApprentissage->PC)[k][d->indice-1];
+            d = d->suivant;
         }
         
         if (k == 0){
