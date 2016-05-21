@@ -6,6 +6,7 @@
 struct document* creer_document(struct document* ensemble_doc,int categorie){
 	struct document* doc = malloc(sizeof(struct document));
 	doc->categorie = categorie;
+        doc->vecteur = NULL;
 	if(ensemble_doc == NULL){
 		// ajout du premier document
 		doc->suivant = NULL;

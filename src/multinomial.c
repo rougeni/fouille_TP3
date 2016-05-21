@@ -1,6 +1,7 @@
 #include "bernoulli.h"
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 
 
 void modifTabPCkMultinomial(double* PCk, struct mot* doc){
@@ -24,7 +25,14 @@ void determinerParametresMultinomial(double* tabPi,double** tabPC, struct docume
     while ( docCour != NULL ){
         
         tabPi[docCour->categorie - 1]++;
-        modifTabPCkMultinomial(tabPC[docCour->categorie - 1], docCour->vecteur);
+        
+        struct mot* courMot = docCour->vecteur;
+    
+        while( courMot != NULL ){
+            tabPC[docCour->categorie - 1][courMot->indice - 1] += courMot->nombre_occurence;
+            courMot = courMot->suivant;    
+        }
+    
         
         docCour = docCour->suivant;
         
@@ -75,15 +83,17 @@ struct modele* apprentissageMultinomial(int nbClasses, struct document* ensemble
 }
 
 
-int testMultinomial(struct document* doc, int nbClasses, struct modele* modeleApprentissage){
+int testMultinomial(struct mot* doc, struct modele* modeleApprentissage){
     
     double PiF;
     double PiFMax = 0;
     int kMax = 1;
     
-    for(int k = 0; k < nbClasses; k++){
-        PiF = log((modeleApprentissage->Pi)[k]);
-        struct mot* d = doc->vecteur;
+    for(int k = 0; k < 29; k++){
+        
+        PiF = log(modeleApprentissage->Pi[k]);
+        PiF = - 1;
+        struct mot* d = doc;
         while (d != NULL){
             PiF += (d->nombre_occurence)*((modeleApprentissage->PC)[k][d->indice-1]);
         }

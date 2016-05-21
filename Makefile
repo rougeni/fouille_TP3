@@ -12,13 +12,13 @@ modele:
 	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/modele.c -o bin/modele.o
 
 bernoulli:
-	gcc -O3 -lm -std=gnu99 -Wall -Werror -g -c src/bernoulli.c -o bin/bernoulli.o
+	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/bernoulli.c -o bin/bernoulli.o
 
 multinomial:
-	gcc -O3 -lm -std=gnu99 -Wall -Werror -g -c src/multinomial.c -o bin/multinomial.o
+	gcc -O3 -std=gnu99 -Wall -Werror -g -c src/multinomial.c -o bin/multinomial.o
 
 main: document parsing rand bernoulli multinomial modele
-	gcc -O3 -lm -std=gnu99 -Wall -Werror -g src/main.c bin/parsing.o bin/document.o bin/rand.o bin/bernoulli.o bin/multinomial.o bin/modele.o -o bin/main
+	gcc -O3 -std=gnu99 -Wall -Werror -g src/main.c bin/parsing.o bin/document.o bin/rand.o bin/bernoulli.o bin/multinomial.o bin/modele.o -o bin/main
 
 test_doc: document
 	gcc -O3 -std=gnu99 -Wall -Werror -g src/test_doc.c bin/document.o -o bin/test_doc

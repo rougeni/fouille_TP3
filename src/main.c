@@ -12,7 +12,7 @@
 int main (int argc, char **argv){
 
   //Creer l'ensemble de documents encodé dans le fichier
-  struct document* ensemble_documents = parseBase("BaseReuters-29");
+  struct document* ensemble_documents = parseBase("./../BaseReuters-29");
 
   int tailleVocabulaire = 0;
 
@@ -29,6 +29,7 @@ int main (int argc, char **argv){
 
 
   int* tabIndiceRand = tabRand(70703, 18203);
+  
   //Base de test à constituer
   struct document* baseTest = NULL;
   //dernier doc courant de baseTest
@@ -89,7 +90,7 @@ int main (int argc, char **argv){
   free(tabIndiceRand);
   
   
-  printf("taille baseTest %d\n", incrBaseTest);
+  //printf("taille baseTest %d\n", incrBaseTest);
   
   /*printf("nb doc %d et taille voc %d\n", incr, tailleVocabulaire);
   
@@ -98,7 +99,7 @@ int main (int argc, char **argv){
   }*/ 
   
   
-  coursEntrainement = baseEntrainement;
+  coursEntrainement = baseTest;
   
   incr = 0;
   while( coursEntrainement != NULL ){
@@ -106,7 +107,7 @@ int main (int argc, char **argv){
       coursEntrainement = coursEntrainement->suivant;
   }
   
-  printf("nb docs entrainement %d \n", incr);
+  printf("nb docs test %d \n", incr);
   
   
   
@@ -119,19 +120,24 @@ int main (int argc, char **argv){
       baseEntrainement = supprimer_document(baseEntrainement);
   }*/
   
+ 
+  
   struct document* docCour = baseTest;
   double reussites = 0;
   while(docCour != NULL){
-    if ( testBernoulli(baseTest, tailleVocabulaire, 29, modeleBernoulli) == docCour->categorie ) reussites++;
+    int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli);
+    if ( k  == docCour->categorie ){ reussites += 1;}
     docCour = docCour->suivant;
   }
-
+  
+  reussites /= 18203;
+  
   /*while (docCour != NULL){
     if(testMultinomial(baseTest,29,modeleMultinomial) == docCour->categorie) reussites++;
     docCour = docCour->suivant;
   }*/
   
-  printf("reussites %f\n", reussites/18203);
+  printf("reussites %f\n", reussites);
   
   //supprimerModele(modeleBernoulli);
   //printf("%f", modeleMultinomial->modeleM.Pi[1]);

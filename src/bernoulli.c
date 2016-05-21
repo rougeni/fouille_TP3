@@ -1,19 +1,7 @@
 #include "bernoulli.h"
 #include <stdlib.h>
 #include <math.h>
-
-
-
-void modifTabPCkBernoulli(double* PCk, struct mot* doc){
-
-    struct mot* courMot = doc;
-    
-    while( courMot != NULL ){
-        PCk[courMot->indice - 1]++;
-        courMot = courMot->suivant;    
-    }
-  
-}
+#include <stdio.h>
 
 
 
@@ -24,7 +12,16 @@ void determinerParametresBernoulli(double* tabPi,double** tabPC, struct document
     while ( docCour != NULL ){
         
         tabPi[docCour->categorie - 1]++;
-        modifTabPCkBernoulli(tabPC[docCour->categorie-1], docCour->vecteur);
+        
+        struct mot* courMot = docCour->vecteur;
+        
+    
+        while( courMot != NULL ){
+            
+           tabPC[docCour->categorie - 1][courMot->indice - 1]++;
+           courMot = courMot->suivant; 
+
+        }
         
         docCour = docCour->suivant;
         
@@ -47,16 +44,17 @@ void determinerParametresBernoulli(double* tabPi,double** tabPC, struct document
 struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_documents, int nbDocuments, int V){
 
   //tableau de la distribution des classes
-  double* tabPi = malloc( nbClasses*sizeof(double) );
+  double* tabPi = malloc(nbClasses*sizeof(double));
   //tableau des probabilites d'occurence des termes pour chaque classe
   double** tabPC = malloc(nbClasses*sizeof(double*));
   
   for(int k = 0; k < nbClasses; k++){
       tabPi[k] = 0;
-      tabPC[k] = calloc(sizeof(double), V);
+      tabPC[k] = malloc(V*sizeof(double));
+      for(int i = 0; i < V; i++) tabPC[k][i] = 0;
   }
 
-  //determinerParametresBernoulli(tabPi, tabPC, ensemble_documents, nbDocuments, V);
+  determinerParametresBernoulli(tabPi, tabPC, ensemble_documents, nbDocuments, V);
 
   struct modele* modele = malloc( sizeof(struct modele) );
   modele->Pi = tabPi;
@@ -69,16 +67,16 @@ struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_d
 }
 
 
-int testBernoulli(struct document* doc, int V, int nbClasses, struct modele* modeleApprentissage){
+int testBernoulli(struct mot* doc, int V, int nbClasses, struct modele* modeleApprentissage){
     
     double PiF;
     double PiFMax = 0;
     int kMax = 1;
     
     for(int k = 0; k < nbClasses; k++){
+        struct mot* d = doc;
         int i = V;
         PiF = log((modeleApprentissage->Pi)[k]);
-        struct mot* d = doc->vecteur;
         while (i > 0){
             if(d != NULL){
                 if (d->indice == i){
