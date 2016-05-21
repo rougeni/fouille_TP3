@@ -32,7 +32,6 @@ int* tabRand(int taille, int tailleEntrainement){
     
     for(i = 0; i< taille;i++){
         nombre_tire = rand()%taille;
-
         // On échange les contenus des cases i et nombre_tire
         temp = resultat[i];
         resultat[i] = resultat[nombre_tire];
@@ -40,6 +39,7 @@ int* tabRand(int taille, int tailleEntrainement){
     }
 
     qsort(resultat, tailleEntrainement, sizeof *resultat, compare); 
+    printf("taille tiree %d \n", resultat[0]);
 
     return resultat;
 

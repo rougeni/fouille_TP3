@@ -29,6 +29,7 @@ int main (int argc, char **argv){
 
 
   int* tabIndiceRand = tabRand(70703, 18203);
+  printf("taille tiree %d \n", tabIndiceRand[0]);
   
   //Base de test à constituer
   struct document* baseTest = NULL;
@@ -68,6 +69,18 @@ int main (int argc, char **argv){
             coursTest->suivant = NULL;
             //Il y a un document de plus dans baseTest
             incrBaseTest++;
+        }
+        
+        else{
+            if (baseEntrainement == NULL){
+                baseEntrainement = cour;
+            }
+            else {
+                coursEntrainement->suivant = cour;
+            }
+            coursEntrainement = cour;
+            cour = cour->suivant;
+            coursEntrainement->suivant = NULL;
         }
     }
     
@@ -112,8 +125,8 @@ int main (int argc, char **argv){
   
   
    
-  //struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500, tailleVocabulaire);
-  struct modele* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
+  struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500, tailleVocabulaire);
+  //struct modele* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
   
   /*
   while( baseEntrainement != NULL ){
@@ -125,8 +138,8 @@ int main (int argc, char **argv){
   double reussites = 0;
   int indiceDoc = 1;
   while(docCour != NULL){
-    //int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli);
-    int k = testMultinomial(docCour->vecteur, modeleMultinomial);  
+    int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli);
+    //int k = testMultinomial(docCour->vecteur, modeleMultinomial);  
     if ( k  == docCour->categorie ){ reussites += 1;}
     docCour = docCour->suivant;
     indiceDoc++;
