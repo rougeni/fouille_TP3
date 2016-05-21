@@ -136,13 +136,11 @@ int main (int argc, char **argv){
   
   struct document* docCour = baseTest;
   double reussites = 0;
-  int indiceDoc = 1;
   while(docCour != NULL){
     int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli);
     //int k = testMultinomial(docCour->vecteur, modeleMultinomial);  
     if ( k  == docCour->categorie ){ reussites += 1;}
     docCour = docCour->suivant;
-    indiceDoc++;
   }
   
   reussites /= 18203;

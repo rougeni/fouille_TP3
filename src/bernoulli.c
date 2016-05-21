@@ -83,6 +83,7 @@ int testBernoulli(struct mot* doc, int V, int nbClasses, struct modele* modeleAp
                     PiF += log(modeleApprentissage->PC[k][i-1]);
                     d = d->suivant;
                 }
+                else PiF += log(1 - modeleApprentissage->PC[k][i-1]);
             }
             else PiF += log(1 - modeleApprentissage->PC[k][i-1]);
             
