@@ -10,7 +10,7 @@ void determinerParametresBernoulli(double* tabPi,double** tabPC, struct document
 //Calculer les parametres du modele de Bernoulli à partir des données d'entrée
 struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_documents, int nbDocuments, int V);
 
-int testBernoulli(struct mot* doc, int V, int nbClasses, struct modele* modeleApprentissage);
+int testBernoulli(struct mot* doc, int V, int nbClasses, struct modele* modeleApprentissage, double** log1);
 
 
 #endif

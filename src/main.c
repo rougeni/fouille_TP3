@@ -8,11 +8,12 @@
 #include "multinomial.h"
 #include "rand.h"
 #include <stdio.h>
+#include <math.h>
 
 int main (int argc, char **argv){
 
   //Creer l'ensemble de documents encodé dans le fichier
-  struct document* ensemble_documents = parseBase("BaseReuters-29");
+  struct document* ensemble_documents = parseBase("./../BaseReuters-29");
 
   int tailleVocabulaire = 0;
 
@@ -126,6 +127,18 @@ int main (int argc, char **argv){
   
    
   struct modele* modeleBernoulli = apprentissageBernoulli(29, baseEntrainement, 52500, tailleVocabulaire);
+  
+  //Precalcul des logs pour le modele de Bernoulli
+  double** tabPC = malloc(29*sizeof(double*));
+  
+  for(int k = 0; k < 29; k++){
+    tabPC[k] = malloc(tailleVocabulaire*sizeof(double));
+    for(int i = 0; i < tailleVocabulaire; i++){
+        tabPC[k][i] = log(1-modeleBernoulli->PC[k][i]);
+        modeleBernoulli->PC[k][i] = log(modeleBernoulli->PC[k][i]);
+    }
+  }
+  
   //struct modele* modeleMultinomial = apprentissageMultinomial(29, baseEntrainement, 52500, tailleVocabulaire);
   
   /*
@@ -137,7 +150,7 @@ int main (int argc, char **argv){
   struct document* docCour = baseTest;
   double reussites = 0;
   while(docCour != NULL){
-    int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli);
+    int k = testBernoulli(docCour->vecteur, tailleVocabulaire, 29, modeleBernoulli, tabPC);
     //int k = testMultinomial(docCour->vecteur, modeleMultinomial);  
     if ( k  == docCour->categorie ){ reussites += 1;}
     docCour = docCour->suivant;

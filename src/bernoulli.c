@@ -67,11 +67,13 @@ struct modele* apprentissageBernoulli(int nbClasses, struct document* ensemble_d
 }
 
 
-int testBernoulli(struct mot* doc, int V, int nbClasses, struct modele* modeleApprentissage){
+int testBernoulli(struct mot* doc, int V, int nbClasses, struct modele* modeleApprentissage, double** log1){
     
     double PiF;
     double PiFMax = 0;
     int kMax = 1;
+    
+    
     
     for(int k = 0; k < nbClasses; k++){
         struct mot* d = doc;
@@ -80,12 +82,12 @@ int testBernoulli(struct mot* doc, int V, int nbClasses, struct modele* modeleAp
         while (i > 0){
             if(d != NULL){
                 if (d->indice == i){
-                    PiF += log(modeleApprentissage->PC[k][i-1]);
+                    PiF += modeleApprentissage->PC[k][i-1];
                     d = d->suivant;
                 }
-                else PiF += log(1 - modeleApprentissage->PC[k][i-1]);
+                else PiF += log1[k][i-1];
             }
-            else PiF += log(1 - modeleApprentissage->PC[k][i-1]);
+            else PiF += log1[k][i-1];
             
             i--;
         }
